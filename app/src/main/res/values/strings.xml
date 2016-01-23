@@ -4,6 +4,7 @@
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_login">Sign in</string>
     <string name="action_Logout">Logout</string>
+    <string name="action_editfriends">Edit Friends</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -23,8 +24,12 @@
     <string name="ok_label">Ok</string>
     <string name="Login_error_message">Incorrect password or username! </string>
     <string name="Login_error_title">Login error</string>
+    <string name="Edit_friend_error">We/'re Sorry!</string>
+    <string name="Edit_friend_title">Opps!</string>
     <!-- Fragments -->
     <string name="title_Section1">Inbox</string>
     <string name="title_Section2">Friends</string>
     <string name="title_activity_main2">Main2Activity</string>
+    <string name="emptylistmessage">No new messages</string>
+    <string name="no_friends_message">No new friends</string>
 </resources>

@@ -1,8 +1,5 @@
 package com.example.aubre.hornet;
 
-import android.app.ActionBar;
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -29,8 +26,6 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.parse.ParseUser;
-
-import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = MainActivity.class.getSimpleName();
@@ -124,7 +119,11 @@ public class MainActivity extends AppCompatActivity {
             ParseUser.logOut();
             backtoLogin();
             return true;
+        } else if (id == R.id.action_edit_friends) {
+            Intent intent = new Intent(this, EditFriends_Activity.class);
+            startActivity(intent);
         }
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -199,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_inbox, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
@@ -223,7 +222,13 @@ public class MainActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+            switch (position){
+                case 0:
+                    return new InboxFragment();
+                case 1:
+                    return new FriendsFragment();
+            }
+            return null;
         }
 
         @Override
@@ -243,6 +248,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
             return null;
+
         }
     }
 }
