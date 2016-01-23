@@ -32,7 +32,7 @@ import com.parse.ParseUser;
 
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements ActionBar.TabListener {
+public class MainActivity extends AppCompatActivity {
     public static final String TAG = MainActivity.class.getSimpleName();
     /**
      * The {@link PagerAdapter} that will provide
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -212,23 +212,18 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        protected Context mContext;
 
-
-        public SectionsPagerAdapter(Context context, FragmentManager fm) {
+        public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
-            mContext = context;
+
         }
 
-        public SectionsPagerAdapter(Context context, FragmentManager fragmentManager) {
-            super();
-        }
 
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return new InboxFragment();
+            return PlaceholderFragment.newInstance(position + 1);
         }
 
         @Override
@@ -239,12 +234,12 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
 
         @Override
         public CharSequence getPageTitle(int position) {
-            Locale 1 = Locale.getDefault();
+
             switch (position) {
                 case 0:
-                    return mContext.getString(R.string.title_Section1);
+                    return getString(R.string.title_Section1);
                 case 1:
-                    return mContext.getString(R.string.title_Section2);
+                    return getString(R.string.title_Section2);
 
             }
             return null;

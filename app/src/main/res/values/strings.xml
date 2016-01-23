@@ -26,4 +26,5 @@
     <!-- Fragments -->
     <string name="title_Section1">Inbox</string>
     <string name="title_Section2">Friends</string>
+    <string name="title_activity_main2">Main2Activity</string>
 </resources>
