@@ -24,7 +24,7 @@
     <string name="ok_label">Ok</string>
     <string name="Login_error_message">Incorrect password or username! </string>
     <string name="Login_error_title">Login error</string>
-    <string name="Edit_friend_error">We/'re Sorry!</string>
+    <string name="Edit_friend_error">We\'re Sorry!</string>
     <string name="Edit_friend_title">Opps!</string>
     <!-- Fragments -->
     <string name="title_Section1">Inbox</string>
