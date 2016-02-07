@@ -41,6 +41,8 @@ public class EditFriends_Activity extends ListActivity {
 
         setupActionBar();
 
+        getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -68,11 +70,12 @@ public class EditFriends_Activity extends ListActivity {
                     for (ParseUser user : mUsers) {
                         usernames[i] = user.getUsername();
                         i++;
-                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(EditFriends_Activity.this,
+                        ArrayAdapter<String> adapter = new <Object>ArrayAdapter<String>(
+                                EditFriends_Activity.this,
                                 android.R.layout.simple_list_item_checked,
                                 usernames);
                         setListAdapter(adapter);
-                        //the method that adds friends using a check marker
+
                         addFriendCheckmarks();
                     }
                 } else {
@@ -132,7 +135,9 @@ public class EditFriends_Activity extends ListActivity {
 
     private void setupActionBar() {
 
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+
+       // getActionBar().setDisplayHomeAsUpEnabled(true);
+       // getActionBar().setHomeButtonEnabled(true);
     }
 
     @Override
