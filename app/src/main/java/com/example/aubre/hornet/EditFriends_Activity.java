@@ -39,6 +39,8 @@ public class EditFriends_Activity extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setupActionBar();
+
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -70,6 +72,8 @@ public class EditFriends_Activity extends ListActivity {
                                 android.R.layout.simple_list_item_checked,
                                 usernames);
                         setListAdapter(adapter);
+                        //the method that adds friends using a check marker
+                        addFriendCheckmarks();
                     }
                 } else {
                     Log.e(TAG, e.getMessage());
@@ -170,7 +174,7 @@ public class EditFriends_Activity extends ListActivity {
             }
         });
     }
-
+//a method that adds a check marker
     private void addFriendCheckmarks() {
         mFriendsRelation.getQuery().findInBackground(new FindCallback<ParseUser>() {
             @Override
