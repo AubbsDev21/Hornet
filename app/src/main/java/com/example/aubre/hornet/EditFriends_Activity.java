@@ -54,7 +54,7 @@ public class EditFriends_Activity extends ListActivity {
         //grabbing a list of users from query  in the app with username
         super.onResume();
         mCurrentUser = ParseUser.getCurrentUser();
-        mFriendsRelation = mCurrentUser.getRelation(ParseConstant.KEY_Friends_Relation);
+        mFriendsRelation = mCurrentUser.getRelation(ParseConstant.KEY_FRIENDS_RELATION);
 
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.orderByAscending(ParseConstant.KEY_USERNAME);

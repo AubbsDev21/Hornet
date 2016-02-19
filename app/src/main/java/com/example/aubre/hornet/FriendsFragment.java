@@ -40,7 +40,7 @@ public class FriendsFragment extends android.support.v4.app.ListFragment {
         //grabbing a list of users from query  in the app with username
         super.onResume();
         mCurrentUser = ParseUser.getCurrentUser();
-        mFriendsRelation = mCurrentUser.getRelation(ParseConstant.KEY_Friends_Relation);
+        mFriendsRelation = mCurrentUser.getRelation(ParseConstant.KEY_FRIENDS_RELATION);
 
         ParseQuery<ParseUser> query = mFriendsRelation.getQuery();
         query.addAscendingOrder(ParseConstant.KEY_USERNAME);

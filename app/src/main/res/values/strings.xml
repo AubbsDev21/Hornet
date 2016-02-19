@@ -5,6 +5,7 @@
     <string name="title_activity_login">Sign in</string>
     <string name="action_Logout">Logout</string>
     <string name="action_editfriends">Edit Friends</string>
+    <string name="action_PhotoGallery">Photo Gallery</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -33,4 +34,10 @@
     <string name="emptylistmessage">No new messages</string>
     <string name="no_friends_message">No new friends</string>
     <string name="error_title">Sorry!</string>
+    <string name="error_external_storage">There is a problem acessing your device\\\'s external storage.</string>
+    <string name="general_error">Sorry there was an error</string>
+    <string name="error_selecting_file">There was an error with the user you selected. Please try again.</string>
+    <string name="error_selecting_file_title">Sorry</string>
+    <string name="success_message">Your message was sent, thanks to Aubre Body!!!</string>
+    <string name="error_fail_message">Sorry your message was not sented. Please try again.</string>
 </resources>

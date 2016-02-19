@@ -3,8 +3,9 @@ package com.example.aubre.hornet;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -21,11 +22,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.parse.ParseUser;
+
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = MainActivity.class.getSimpleName();
@@ -48,6 +55,11 @@ public class MainActivity extends AppCompatActivity {
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
+    public static final int TAKE_PHOTO_REQUEST = 0;
+    public static final int MEDIA_TYPE_IMAGE = 1;
+    public static final int PICK_PHOTO_REQUEST = 2;
+
+    protected Uri mMediaURL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,18 +89,107 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
     /*---------------------Floating Action button       ---------------------------- */
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onClick(View v) {
+                //intents to just the camera
+                Intent takePhotointent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                //get info from camera
+                mMediaURL = getcapturedMediauri(MEDIA_TYPE_IMAGE);
+                takePhotointent.putExtra(MediaStore.EXTRA_OUTPUT, mMediaURL);
+                startActivityForResult(takePhotointent, TAKE_PHOTO_REQUEST);
             }
         });
+
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+    }
+
+    private Uri getcapturedMediauri(int mediaType) {
+        // To be safe, you should check that the SDCard is mounted
+        // using Environment.getExternalStorageState() before doing this.
+        if (isExternalStorageAvaible()) {
+            //get the URI
+
+            //1. Get the external storage directory
+            String appName = MainActivity.this.getString(R.string.app_name);
+            File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_PICTURES), appName);
+
+            //2.Create our subdirectory
+            if (!mediaStorageDir.exists()) {
+                if (!mediaStorageDir.mkdir()) {
+                    Log.e(TAG, "Failed to create directory");
+                    return null;
+                }
+            }
+
+            //3. Create a file name
+            //4. Create the file
+            File mediaFile;
+            Date now = new Date();
+            String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(now);
+
+            String path = mediaStorageDir.getPath() + File.separator;
+
+                mediaFile = new File(path + "iMG_" + timestamp + ".jpg");
+
+            Log.d(TAG, "File: " + Uri.fromFile(mediaFile));
+
+            //Return the file's URI
+            return Uri.fromFile(mediaFile);
+
+        } else {
+            return null;
+        }
+    }
+
+
+    private Boolean isExternalStorageAvaible() {
+           String state = Environment.getExternalStorageState();
+
+           if (state.equals(Environment.MEDIA_MOUNTED)) {
+               return true;
+           } else {
+               return false;
+           }
+       }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == PICK_PHOTO_REQUEST){
+                if (data == null){
+                    Toast.makeText(this, getString(R.string.general_error), Toast.LENGTH_LONG).show();
+                }
+                else {
+                    mMediaURL = data.getData();
+                }//setting the URI to the photo we want to send
+            } else{
+                Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                mediaScanIntent.setData(mMediaURL);
+                sendBroadcast(mediaScanIntent);
+            }
+            Intent recipientsIntent = new Intent(this, RecipientsActivity.class);
+            recipientsIntent.setData(mMediaURL);
+            //startActivity(recipientsIntent);
+
+            String fileType = null;
+
+            if (requestCode == PICK_PHOTO_REQUEST || requestCode == TAKE_PHOTO_REQUEST){
+                fileType = ParseConstant.TYPE_IMAGE;
+
+            }
+            recipientsIntent.putExtra(ParseConstant.KEY_FILE_TYPE, fileType);
+            startActivity(recipientsIntent);
+        } else if (resultCode != RESULT_CANCELED) {
+            Toast.makeText(this, R.string.general_error, Toast.LENGTH_LONG).show();
+        }
     }
 
     private void backtoLogin() {
@@ -122,6 +223,10 @@ public class MainActivity extends AppCompatActivity {
         } else if (id == R.id.action_edit_friends) {
             Intent intent = new Intent(this, EditFriends_Activity.class);
             startActivity(intent);
+        } else if (id == R.id.action_Photo_Gallery ) {
+            Intent ChoosePhotoInent = new Intent(Intent.ACTION_GET_CONTENT);
+            ChoosePhotoInent.setType("image/*");
+            startActivityForResult(ChoosePhotoInent, PICK_PHOTO_REQUEST);
         }
 
 

@@ -14,5 +14,12 @@
         android:title="@string/action_editfriends"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/action_Photo_Gallery"
+        android:orderInCategory="100"
+        android:title="@string/action_PhotoGallery"
+        app:showAsAction="never" />
+
+
 
 </menu>
